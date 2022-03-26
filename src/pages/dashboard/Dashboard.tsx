@@ -1,10 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import Select from 'react-select';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import styles from './Dashboard.module.scss';
 import { selectWeather, selectCountry, selectCountries } from './redux/dashboardSelectors';
-import { getCountry, getCountries, getWeather } from './redux/dashboardActions';
+import { getCountry, getCountriesSelect, getWeather } from './redux/dashboardActions';
+
+function getCardinalDirection(angle: number): string {
+  const directions = ['↑ N', '↗ NE', '→ E', '↘ SE', '↓ S', '↙ SW', '← W', '↖ NW'];
+  console.log('angle ', angle);
+  console.log('Math.round(angle / 45) ', Math.round(angle / 45));
+  console.log('Math.round(angle / 45) % 8 ', Math.round(angle / 45) % 8);
+  return directions[Math.round(angle / 45)];
+}
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -12,38 +20,53 @@ const Dashboard = () => {
   const country = useAppSelector(selectCountry);
   const countries = useAppSelector(selectCountries);
 
-  const [countryCode, setCountryCode] = useState('MT');
+  const [countryData, setCountryData] = useState({
+    value: 'MT',
+    label: 'Malta',
+    latlng: [35.83333333, 14.58333333],
+  });
 
   useEffect(() => {
-    dispatch(getCountry(countryCode))
+    dispatch(getCountry(countryData.value))
       .then(() => {
-        if(country) {
-          dispatch(getWeather(country.latlng[0], country.latlng[1]))
+        if (country) {
+          dispatch(getWeather(country.latlng[0], country.latlng[1]));
         }
       })
-      .then(() => dispatch(getCountries()));
+      .then(() => dispatch(getCountriesSelect()));
   }, []);
 
   useEffect(() => {
-    if (country && country.latlng.length) {
-      const log = country.latlng[0];
-      const lat = country.latlng[1];
+    if (countryData.latlng.length) {
+      const log = countryData.latlng[0];
+      const lat = countryData.latlng[1];
       dispatch(getWeather(log, lat));
     }
-  }, [country]);
+  }, [countryData]);
 
   return (
-    <div className={styles.row}>
-      {(country && weather) && (
+    <>
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <h1 style={{marginRight: "1rem", }} >Weather Today in</h1>
+        <div style={{width: "15rem"}}>
+          <Select value={countryData} options={countries} onChange={(c: any) => setCountryData(c)} />
+        </div>
+      </div>
+      {country && weather && (
         <>
-          <h1>{country.name.common}</h1>
-          <h1>{weather.main.temp} °</h1>
-          <h1>{weather.wind.speed} km/h</h1>
-          <h1>{weather.main.humidity} %</h1>
-          <h1>{weather.main.pressure} mb</h1>
+          <h1>
+            Temperature {weather.main.temp}° <br />
+            (Min {weather.main.temp_min}° / Max {weather.main.temp_max}°)
+          </h1>
+          <h1>
+            Wind (Speed {weather.wind.speed} km/h, Direction{' '}
+            {getCardinalDirection(weather.wind.deg)}){' '}
+          </h1>
+          <h1>Humidity {weather.main.humidity} %</h1>
+          <h1>Pressure {weather.main.pressure} mb</h1>
         </>
       )}
-    </div>
+    </>
   );
 };
 

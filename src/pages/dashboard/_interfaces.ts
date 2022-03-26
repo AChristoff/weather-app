@@ -43,6 +43,12 @@ export interface ICountry {
   unMember: boolean;
 }
 
+export interface ICountrySelect {
+  value: string 
+  label: string, 
+  latlng: number[]
+}
+
 export enum EStatus {
   loading = 'loading',
   success = 'success',
@@ -52,7 +58,7 @@ export enum EStatus {
 export interface IDashboardState {
   country: ICountry | null;
   countryStatus: EStatus;
-  countries: ICountry[];
+  countriesSelect: ICountrySelect[];
   countriesStatus: EStatus;
   weather: IWeather | null;
   weatherStatus: EStatus;

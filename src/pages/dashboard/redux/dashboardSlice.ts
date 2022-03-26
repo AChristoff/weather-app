@@ -4,7 +4,7 @@ import { IDashboardState, EStatus } from '../_interfaces';
 const initialState: IDashboardState = {
   country: null,
   countryStatus: EStatus.loading,
-  countries: [],
+  countriesSelect: [],
   countriesStatus: EStatus.loading,
   weather: null,
   weatherStatus: EStatus.loading,
@@ -21,8 +21,8 @@ export const dashboardSlice = createSlice({
     setCountryStatus: (state, action: {payload: EStatus, type: string}) => {
       state.countryStatus = action.payload;
     },
-    setCountries: (state, action) => {
-      state.countries = action.payload;
+    setCountriesSelect: (state, action) => {
+      state.countriesSelect = action.payload;
       state.countriesStatus = EStatus.success;
     },
     setCountriesStatus: (state, action: {payload: EStatus, type: string}) => {
