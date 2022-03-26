@@ -35,14 +35,11 @@ export const getCountriesSelect = () => async (dispatch: Dispatch) => {
     };
 
     const res = await axios.get('https://restcountries.com/v3.1/all', headers);
-    console.log('res.data', res.data);
     const countries = res.data.reduce(
       (acc: any[], country: ICountry) => {
        acc.push({ value: country.cca2, label: country.name.common, latlng: country.latlng });
        return acc
       },[]);
-
-    console.log("countries ", countries)
 
     dispatch(actions.setCountriesSelect(countries));
     dispatch(actions.setCountriesStatus(EStatus.success));

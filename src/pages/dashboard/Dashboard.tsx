@@ -8,9 +8,6 @@ import { getCountry, getCountriesSelect, getWeather } from './redux/dashboardAct
 
 function getCardinalDirection(angle: number): string {
   const directions = ['↑ N', '↗ NE', '→ E', '↘ SE', '↓ S', '↙ SW', '← W', '↖ NW'];
-  console.log('angle ', angle);
-  console.log('Math.round(angle / 45) ', Math.round(angle / 45));
-  console.log('Math.round(angle / 45) % 8 ', Math.round(angle / 45) % 8);
   return directions[Math.round(angle / 45)];
 }
 
@@ -55,15 +52,17 @@ const Dashboard = () => {
       {country && weather && (
         <>
           <h1>
-            Temperature {weather.main.temp}° <br />
-            (Min {weather.main.temp_min}° / Max {weather.main.temp_max}°)
+            Temperature <br />
+            {weather.main.temp}° <br />
+            min {weather.main.temp_min}° / max {weather.main.temp_max}°
           </h1>
           <h1>
-            Wind (Speed {weather.wind.speed} km/h, Direction{' '}
-            {getCardinalDirection(weather.wind.deg)}){' '}
+            Wind <br />
+            {weather.wind.speed}km/h <br />
+            {getCardinalDirection(weather.wind.deg)}{' '} <br />
           </h1>
-          <h1>Humidity {weather.main.humidity} %</h1>
-          <h1>Pressure {weather.main.pressure} mb</h1>
+          <h1>Humidity <br />{weather.main.humidity} %</h1>
+          <h1>Pressure <br />{weather.main.pressure} mb</h1>
         </>
       )}
     </>
