@@ -4,17 +4,27 @@ import Select from 'react-select';
 import { BsThermometerSun } from 'react-icons/bs';
 
 import { useAppSelector, useAppDispatch } from '../../_redux/hooks';
-import { selectWeather, selectCountry, selectCountries } from './redux/dashboardSelectors';
+import {
+  selectWeather,
+  selectCountry,
+  selectCountries,
+  selectCountriesStatus,
+  selectWeatherStatus,
+} from './redux/dashboardSelectors';
 import { getCountry, getCountriesSelect, getWeather } from './redux/dashboardActions';
 
 import styles from './Dashboard.module.scss';
 import DashboardTile from '../../components/DashboardTile';
+import { EStatus } from './_interfaces';
+import Loader from '../../components/Loader';
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const weather = useAppSelector(selectWeather);
   const country = useAppSelector(selectCountry);
   const countries = useAppSelector(selectCountries);
+  const countriesStatus = useAppSelector(selectCountriesStatus);
+  const weatherStatus = useAppSelector(selectWeatherStatus);
 
   const [countryData, setCountryData] = useState({
     value: 'MT',
@@ -44,8 +54,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <header className={styles.header} >
-        <h1 className={styles.title} >
+      <header className={styles.header}>
+        <h1 className={styles.title}>
           <BsThermometerSun />
           Weather Today in
         </h1>
@@ -54,10 +64,14 @@ const Dashboard = () => {
             value={countryData}
             options={countries}
             onChange={(c: any) => setCountryData(c)}
+            isLoading={countriesStatus === EStatus.loading}
           />
         </div>
       </header>
-      {country && weather && (
+      {weatherStatus === EStatus.loading && (
+        <Loader />
+      )}
+      {(weatherStatus === EStatus.success && weather) && (
         <>
           <main className={styles.tiles}>
             {tiles.map((tile, index) => (
@@ -66,7 +80,14 @@ const Dashboard = () => {
           </main>
         </>
       )}
-      <footer></footer>
+      {weatherStatus === EStatus.error && (
+        <h4 className={styles.error}>Ops something wrong...</h4>
+      )}
+      <footer className={styles.footer}>
+        <a href="https://alekshristov.com/" target="_blank" rel="noopener noreferrer">
+          © Aleksov
+        </a>
+      </footer>
     </>
   );
 };

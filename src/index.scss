@@ -2,8 +2,6 @@ body {
   margin: 0;
   font: 16px/1.5 'Montserrat', sans-serif;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: rgb(0,51,153);
   background: linear-gradient(159deg, #337A9E 35%, #D8EEEE 100%);
 }
@@ -11,4 +9,7 @@ body {
 #app {
   max-width: 70em;
   margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
