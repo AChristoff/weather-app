@@ -1,6 +1,18 @@
 $border-radius: 0.5em;
 $theme-dark-blue: #005986;
 
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7em;
+}
+.blueWrapper {
+  display: flex;
+  align-items: center;
+  margin: 1.8em;
+}
+
 .tiles {
   display: flex;
   flex-wrap: wrap;
@@ -10,12 +22,16 @@ $theme-dark-blue: #005986;
 }
 
 .tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border-radius: $border-radius;
   background: #ffffff;
   box-shadow: 0 0 0.7em 0 rgb(0 0 0 / 20%);
   padding: 2%;
   margin-bottom:1em;
   flex: 0 1 45.22%;
+  height: 20vh;
 }
 
 .header {

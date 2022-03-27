@@ -1,8 +1,8 @@
-import styles from './Loader.module.scss';
+import './Loader.scss';
 
-const Loader = () => {
+const Loader: React.FC<{color?: string, size?: string}> = ({color, size}) => {
   return (
-    <div className={styles.ripple}>
+    <div className={`ripple ${color ? color : null} ${size ? size : null}`}>
       <div></div>
       <div></div>
     </div>

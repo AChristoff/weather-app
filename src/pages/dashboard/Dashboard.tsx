@@ -68,19 +68,17 @@ const Dashboard = () => {
           />
         </div>
       </header>
-      {weatherStatus === EStatus.loading && (
-        <Loader />
-      )}
-      {(weatherStatus === EStatus.success && weather) && (
-        <>
-          <main className={styles.tiles}>
-            {tiles.map((tile, index) => (
-              <DashboardTile key={index} title={tile} weather={weather} />
-            ))}
-          </main>
-        </>
-      )}
-      {weatherStatus === EStatus.error && (
+      {weather ? (
+        <main className={styles.tiles}>
+          {tiles.map((tile, index) => (
+            <DashboardTile key={index} title={tile} weather={weather} />
+          ))}
+        </main>
+      ) : weatherStatus === EStatus.loading ? (
+        <section className={styles.wrapper}>
+          <Loader />
+        </section>
+      ) : (
         <h4 className={styles.error}>Ops something wrong...</h4>
       )}
       <footer className={styles.footer}>
