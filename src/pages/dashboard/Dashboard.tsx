@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { BsThermometerSun } from 'react-icons/bs';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../_redux/hooks';
 import { selectWeather, selectCountry, selectCountries } from './redux/dashboardSelectors';
 import { getCountry, getCountriesSelect, getWeather } from './redux/dashboardActions';
 
-function getCardinalDirection(angle: number): string {
-  const directions = ['↑ N', '↗ NE', '→ E', '↘ SE', '↓ S', '↙ SW', '← W', '↖ NW'];
-  return directions[Math.round(angle / 45)];
-}
+import styles from './Dashboard.module.scss';
+import DashboardTile from '../../components/DashboardTile';
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -41,30 +40,33 @@ const Dashboard = () => {
     }
   }, [countryData]);
 
+  const tiles = ['Temperature', 'Wind', 'Humidity', 'Pressure'];
+
   return (
     <>
-      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <h1 style={{marginRight: "1rem", }} >Weather Today in</h1>
-        <div style={{width: "15rem"}}>
-          <Select value={countryData} options={countries} onChange={(c: any) => setCountryData(c)} />
+      <header className={styles.header} >
+        <h1 className={styles.title} >
+          <BsThermometerSun />
+          Weather Today in
+        </h1>
+        <div className={styles.select}>
+          <Select
+            value={countryData}
+            options={countries}
+            onChange={(c: any) => setCountryData(c)}
+          />
         </div>
-      </div>
+      </header>
       {country && weather && (
         <>
-          <h1>
-            Temperature <br />
-            {weather.main.temp}° <br />
-            min {weather.main.temp_min}° / max {weather.main.temp_max}°
-          </h1>
-          <h1>
-            Wind <br />
-            {weather.wind.speed}km/h <br />
-            {getCardinalDirection(weather.wind.deg)}{' '} <br />
-          </h1>
-          <h1>Humidity <br />{weather.main.humidity} %</h1>
-          <h1>Pressure <br />{weather.main.pressure} mb</h1>
+          <main className={styles.tiles}>
+            {tiles.map((tile, index) => (
+              <DashboardTile key={index} title={tile} weather={weather} />
+            ))}
+          </main>
         </>
       )}
+      <footer></footer>
     </>
   );
 };
