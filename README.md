@@ -1,11 +1,10 @@
-### The app is Live at:
+## The app is Live at:
 
 &#128640; https://achristoff.github.io/weather-app
 
+_____________________________________
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the Typescript, [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
-
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
