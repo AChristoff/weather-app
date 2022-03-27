@@ -55,7 +55,7 @@ export const getWeather =
     dispatch(actions.setWeatherStatus(EStatus.loading));
 
     try {
-      const apiKey = 'bc2a594cbf7320aa16d8c5dd5d487204';
+      const apiKey = process.env.REACT_APP_API_KEY;
       const headers = {
         headers: {
           'Content-type': 'application/json',
