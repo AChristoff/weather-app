@@ -1,12 +1,11 @@
-import { EStatus, IWeather } from '../pages/dashboard/_interfaces';
+import { IWeather } from '../pages/dashboard/_interfaces';
 import styles from '../pages/dashboard/Dashboard.module.scss';
-import { useAppSelector } from '../_redux/hooks';
-import { selectWeatherStatus } from '../pages/dashboard/redux/dashboardSelectors';
 import Loader from './Loader';
 
 interface IProps {
   title: string;
   weather: IWeather;
+  weatherLoading: boolean
 }
 
 function getCardinalDirection(angle: number): string {
@@ -14,12 +13,11 @@ function getCardinalDirection(angle: number): string {
   return directions[Math.round(angle / 45)];
 }
 
-const DashboardTile: React.FC<IProps> = ({ title, weather }) => {
-  const weatherStatus = useAppSelector(selectWeatherStatus);
+const DashboardTile: React.FC<IProps> = ({ title, weather, weatherLoading }) => {
 
   return (
     <section className={styles.tile}>
-      {weatherStatus === EStatus.loading ? (
+      {weatherLoading ? (
         <section className={styles.blueWrapper}>
           <Loader color="blue" size="small"/>
         </section>

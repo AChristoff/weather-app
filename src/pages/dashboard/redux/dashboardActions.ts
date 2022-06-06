@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { dashboardSlice } from './dashboardSlice';
+import { weatherUI } from './dashboardSlice';
 import { EStatus, ICountry } from '../_interfaces';
 
-const { actions } = dashboardSlice;
+const { actions } = weatherUI;
 
 export const getCountry = (code: string) => async (dispatch: Dispatch) => {
   dispatch(actions.setWeatherStatus(EStatus.loading));
